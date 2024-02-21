@@ -40,4 +40,12 @@ class MemberController(
       val response = memberService.searchMyInfo(userId)
       return BaseResponse(data = response)
    }
+
+   @PostMapping("/info")
+   fun saveMyInfo(@RequestBody @Valid memberDtoRequest: MemberDtoRequest): BaseResponse<Unit> {
+      val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
+      memberDtoRequest.id = userId
+      val resultMsg = memberService.saveMyInfo(memberDtoRequest)
+      return BaseResponse(message = resultMsg)
+   }
 }
