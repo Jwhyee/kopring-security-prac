@@ -4,8 +4,11 @@ import com.example.kopring.security.common.authority.TokenInfo
 import com.example.kopring.security.common.dto.BaseResponse
 import com.example.kopring.security.member.dto.LoginDto
 import com.example.kopring.security.member.dto.MemberDtoRequest
+import com.example.kopring.security.member.dto.MemberDtoResponse
 import com.example.kopring.security.member.service.MemberService
 import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -27,5 +30,11 @@ class MemberController(
    fun login(@RequestBody @Valid loginDto: LoginDto): BaseResponse<TokenInfo> {
       val tokenInfo = memberService.login(loginDto)
       return BaseResponse(data = tokenInfo)
+   }
+
+   @GetMapping("/info/{id}")
+   fun searchMyInfo(@PathVariable id: Long): BaseResponse<MemberDtoResponse> {
+      val response = memberService.searchMyInfo(id)
+      return BaseResponse(data = response)
    }
 }

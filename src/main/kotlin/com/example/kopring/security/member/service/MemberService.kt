@@ -6,10 +6,12 @@ import com.example.kopring.security.common.exception.InvalidInputException
 import com.example.kopring.security.common.status.ROLE
 import com.example.kopring.security.member.dto.LoginDto
 import com.example.kopring.security.member.dto.MemberDtoRequest
+import com.example.kopring.security.member.dto.MemberDtoResponse
 import com.example.kopring.security.member.entity.Member
 import com.example.kopring.security.member.entity.MemberRole
 import com.example.kopring.security.member.repository.MemberRepository
 import com.example.kopring.security.member.repository.MemberRoleRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.stereotype.Service
@@ -47,6 +49,11 @@ class MemberService(
 
       return jwtTokenProvider.createToken(authentication)
    }
+
+   /** 내 정보 조회 */
+   fun searchMyInfo(id: Long): MemberDtoResponse =
+      memberRepository.findByIdOrNull(id)?.toDto()
+         ?: throw InvalidInputException("id", "회원 번호(${id})가 존재하지 않습니다.")
 
 
 }

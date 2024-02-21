@@ -25,7 +25,8 @@ class SecurityConfig(
          .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
          // 권한 관리를 넣어주는 부분
          .authorizeHttpRequests { req -> req
-            .requestMatchers("/api/member/signup", "/h2-console/**").anonymous()
+            .requestMatchers("/api/member/signup", "/api/member/login").anonymous()
+            .requestMatchers("/api/member/**").hasRole("MEMBER")
             .anyRequest().permitAll()
          }
          // 첫 필터를 성공할 경우, 뒤에 있는 Username.. 필터는 실행되지 않음
