@@ -1,6 +1,8 @@
 package com.example.kopring.security.member.controller
 
+import com.example.kopring.security.common.authority.TokenInfo
 import com.example.kopring.security.common.dto.BaseResponse
+import com.example.kopring.security.member.dto.LoginDto
 import com.example.kopring.security.member.dto.MemberDtoRequest
 import com.example.kopring.security.member.service.MemberService
 import jakarta.validation.Valid
@@ -19,5 +21,11 @@ class MemberController(
    fun signUp(@RequestBody @Valid dto: MemberDtoRequest): BaseResponse<Unit> {
       val resultMsg: String = memberService.sighUp(dto)
       return BaseResponse(message = resultMsg)
+   }
+
+   @PostMapping("/login")
+   fun login(@RequestBody @Valid loginDto: LoginDto): BaseResponse<TokenInfo> {
+      val tokenInfo = memberService.login(loginDto)
+      return BaseResponse(data = tokenInfo)
    }
 }
